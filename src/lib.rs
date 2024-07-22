@@ -1,22 +1,26 @@
 use std::iter::zip;
 
+#[inline]
 pub fn contains(haystack: &str, needle: &str) -> bool {
     contains_kernel(haystack, needle, equals)
 }
 
+#[inline]
 pub fn icontains(haystack: &str, needle: &str) -> bool {
     debug_assert!(needle.is_ascii(), "needle must be ascii");
     contains_kernel(haystack, needle, i_equals)
 }
 
+#[inline]
 pub fn starts_with(haystack: &str, needle: &str) -> bool {
     if needle.len() > haystack.len() {
         false
     } else {
-        zip(haystack.as_bytes().iter(), needle.as_bytes().iter()).all(equals)
+        zip(haystack.as_bytes(), needle.as_bytes()).all(equals)
     }
 }
 
+#[inline]
 pub fn istarts_with(haystack: &str, needle: &str) -> bool {
     debug_assert!(needle.is_ascii(), "needle must be ascii");
 
@@ -27,6 +31,7 @@ pub fn istarts_with(haystack: &str, needle: &str) -> bool {
     }
 }
 
+#[inline]
 pub fn ends_with(haystack: &str, needle: &str) -> bool {
     if needle.len() > haystack.len() {
         false
@@ -35,6 +40,7 @@ pub fn ends_with(haystack: &str, needle: &str) -> bool {
     }
 }
 
+#[inline]
 pub fn iends_with(haystack: &str, needle: &str) -> bool {
     debug_assert!(needle.is_ascii(), "needle must be ascii");
 
@@ -87,5 +93,5 @@ fn rest_match<'a>(
     hay_iter: impl Iterator<Item = &'a u8>,
     kernel: impl Fn((&u8, &u8)) -> bool,
 ) -> bool {
-    needle_rest.iter().zip(hay_iter).all(kernel)
+    zip(needle_rest, hay_iter).all(kernel)
 }

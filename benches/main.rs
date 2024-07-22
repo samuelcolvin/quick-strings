@@ -87,16 +87,6 @@ fn str_dot_ends_with(haystack: &str, needle: &str) -> bool {
     haystack.ends_with(needle)
 }
 
-fn arrow_starts_with_ignore_ascii_case(haystack: &str, needle: &str) -> bool {
-    let end = haystack.len().min(needle.len());
-    haystack.is_char_boundary(end) && needle.eq_ignore_ascii_case(&haystack[..end])
-}
-
-fn arrow_ends_with_ignore_ascii_case(haystack: &str, needle: &str) -> bool {
-    let start = haystack.len().saturating_sub(needle.len());
-    haystack.is_char_boundary(start) && needle.eq_ignore_ascii_case(&haystack[start..])
-}
-
 
 fn cases(c: &mut Criterion) {
     // contains
@@ -120,9 +110,6 @@ fn cases(c: &mut Criterion) {
     c.bench_function("quick_strings::istarts_with", |b| {
         b.iter(|| run_cases!(istarts_with))
     });
-    c.bench_function("arrow::starts_with_ignore_ascii_case", |b| {
-        b.iter(|| run_cases!(arrow_starts_with_ignore_ascii_case))
-    });
 
     // ends with
     c.bench_function("str.ends_with", |b| {
@@ -133,9 +120,6 @@ fn cases(c: &mut Criterion) {
     });
     c.bench_function("quick_strings::iends_with", |b| {
         b.iter(|| run_cases!(iends_with))
-    });
-    c.bench_function("arrow::ends_with_ignore_ascii_case", |b| {
-        b.iter(|| run_cases!(arrow_ends_with_ignore_ascii_case))
     });
 }
 
