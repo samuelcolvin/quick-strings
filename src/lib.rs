@@ -5,11 +5,7 @@ pub fn contains(haystack: &str, needle: &str) -> bool {
 }
 
 pub fn icontains(haystack: &str, needle: &str) -> bool {
-    debug_assert_eq!(
-        needle.to_ascii_lowercase(),
-        needle,
-        "needle must be lower case"
-    );
+    debug_assert!(needle.is_ascii(), "needle must be ascii");
     contains_kernel(haystack, needle, i_equals)
 }
 
@@ -22,11 +18,7 @@ pub fn starts_with(haystack: &str, needle: &str) -> bool {
 }
 
 pub fn istarts_with(haystack: &str, needle: &str) -> bool {
-    debug_assert_eq!(
-        needle.to_ascii_lowercase(),
-        needle,
-        "needle must be lower case"
-    );
+    debug_assert!(needle.is_ascii(), "needle must be ascii");
 
     if needle.len() > haystack.len() {
         false

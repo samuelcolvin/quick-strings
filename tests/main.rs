@@ -24,8 +24,13 @@ fn test_icontains() {
     assert!(quick_strings::icontains("haystack", "hay"));
     assert!(quick_strings::icontains("haystack", "stack"));
     assert!(quick_strings::icontains("haystack", "sta"));
+    assert!(quick_strings::icontains("haystack", "HAY"));
+    assert!(quick_strings::icontains("haystack", "StAcK"));
+    assert!(quick_strings::icontains("haystack", "stA"));
 
     assert!(quick_strings::icontains("HAYSTACK", "hay"));
+    assert!(quick_strings::icontains("HAYSTACK", "HAY"));
+    assert!(quick_strings::icontains("HAYSTACK", "HaY"));
     assert!(quick_strings::icontains("HAYSTACK", "stack"));
     assert!(quick_strings::icontains("HAYSTACK", "sta"));
 
@@ -35,6 +40,7 @@ fn test_icontains() {
 
     assert!(quick_strings::icontains("A", "a"));
     assert!(!quick_strings::icontains("]", "}"));
+    assert!(!quick_strings::icontains("haysta£ck", "stack"));
 }
 
 #[test]
@@ -74,8 +80,12 @@ fn test_ends_with() {
 fn test_istarts_with() {
     assert!(quick_strings::istarts_with("haystack", "hay"));
     assert!(quick_strings::istarts_with("HAYSTACK", "hay"));
+    assert!(quick_strings::istarts_with("haystack", "HAY"));
+    assert!(quick_strings::istarts_with("haystack", "HaY"));
     assert!(quick_strings::istarts_with("HaYsTaCk", "hay"));
+    assert!(quick_strings::istarts_with("HaYsTaCk", "HAY"));
     assert!(quick_strings::istarts_with("HaYsTaCk", "haystack"));
+    assert!(quick_strings::istarts_with("HaYsTaCk", "HaYsTaCk"));
     assert!(quick_strings::istarts_with("HaYsTaCk", ""));
 
     assert!(!quick_strings::istarts_with("haystack", "stack"));
@@ -87,11 +97,19 @@ fn test_istarts_with() {
 #[test]
 fn test_iends_with() {
     assert!(quick_strings::iends_with("haystack", "stack"));
+    assert!(quick_strings::iends_with("haystack", "STACK"));
+    assert!(quick_strings::iends_with("haystack", "StAcK"));
     assert!(quick_strings::iends_with("HAYSTACK", "stack"));
+    assert!(quick_strings::iends_with("HAYSTACK", "STACK"));
+    assert!(quick_strings::iends_with("HAYSTACK", "StAcK"));
     assert!(quick_strings::iends_with("HAYsTaCk", "stack"));
+    assert!(quick_strings::iends_with("HAYsTaCk", "STACK"));
+    assert!(quick_strings::iends_with("HAYsTaCk", "StAcK"));
     assert!(quick_strings::iends_with("haystack", "haystack"));
+    assert!(quick_strings::iends_with("haystack", "HAYSTACK"));
     assert!(quick_strings::iends_with("HAYSTACK", "haystack"));
     assert!(quick_strings::iends_with("haystack", "ck"));
+    assert!(quick_strings::iends_with("haystack", "cK"));
     assert!(quick_strings::iends_with("haystacK", "ck"));
     assert!(quick_strings::iends_with("haystack", ""));
 
