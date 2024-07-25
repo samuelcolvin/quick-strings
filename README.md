@@ -1,5 +1,11 @@
 # quick strings
 
+---
+
+**NOTE: See [BurntSushi/memchr#156](https://github.com/BurntSushi/memchr/pull/156) for details on the shortcomings of this crate.**
+
+---
+
 Some string comparison functions in Rust that a faster than the standard library.
 
 | Function                      | Performance(ns) | Relative Performance |
