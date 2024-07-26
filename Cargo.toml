@@ -5,6 +5,7 @@ edition = "2021"
 
 [dev-dependencies]
 criterion = "0.5.1"
+regex = { version = "1.7.0", default-features = false, features = ["std", "unicode", "perf"] }
 
 [[bench]]
 name = "main"
