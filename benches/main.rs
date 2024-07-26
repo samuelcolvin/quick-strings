@@ -87,6 +87,22 @@ fn str_dot_ends_with(haystack: &str, needle: &str) -> bool {
     haystack.ends_with(needle)
 }
 
+fn regex_vs_icontains(c: &mut Criterion, prefix_len: usize, needle_len: usize) {
+    let (prefix, needle) = ("a".repeat(prefix_len), "b".repeat(needle_len));
+    let haystack = format!("{prefix}{needle}XXXX");
+
+    c.bench_function(&format!("regex-vs-icontains:quick_strings:{prefix_len}:{needle_len}"), |b| {
+        b.iter(|| black_box(icontains(black_box(&haystack), black_box(&needle))));
+    });
+    let r = regex::RegexBuilder::new(&format!("^.*{needle}.*$"))
+        .case_insensitive(true)
+        .dot_matches_new_line(true)
+        .build().unwrap();
+
+    c.bench_function(&format!("regex-vs-icontains:regex:{prefix_len}:{needle_len}"), |b| {
+        b.iter(|| black_box(r.is_match(black_box(&haystack))));
+    });
+}
 
 fn cases(c: &mut Criterion) {
     // contains
@@ -121,6 +137,15 @@ fn cases(c: &mut Criterion) {
     c.bench_function("quick_strings::iends_with", |b| {
         b.iter(|| run_cases!(iends_with))
     });
+
+    // regex vs icontains
+    regex_vs_icontains(c, 1_000, 10);  // icontains: 494.05m ns, regex: 820.21 ns
+    regex_vs_icontains(c, 2_000, 10);  // icontains: 1.0769 µs,  regex: 1.1335 µs
+    regex_vs_icontains(c, 5_000, 10);  // icontains: 2.6704 µs,  regex: 2.0020 µs
+
+    regex_vs_icontains(c, 10, 1_000);  // icontains: 564.89 ns,  regex: 1.5671 µs
+    regex_vs_icontains(c, 10, 2_000);  // icontains: 1.1176 µs,  regex: 11.945 ms
+    regex_vs_icontains(c, 10, 5_000);  // icontains: 2.7539 µs,  regex: 74.793 ms
 }
 
 criterion_group!(benches, cases);

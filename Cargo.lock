@@ -304,6 +304,7 @@ name = "quick_strings"
 version = "0.1.0"
 dependencies = [
  "criterion",
+ "regex",
 ]
 
 [[package]]
